@@ -16,18 +16,34 @@ final class GlobalController extends AbstractController
         ]);
     }
 
-    #[Route("/contact", name: "contact")]
-    public function contact(): Response{
-        return $this->render("global/contact.html.twig");
+    #[Route("/contact", name: "contact_get", methods: ["GET"])]
+    public function contact(): Response
+    {
+        return new Response("Formulaire");
+    }
+
+    #[Route("/contact", name: "contact_post", methods: ["POST"])]
+    public function contactPost(): Response
+    {
+        return new Response("Formulaire envoyé");
     }
 
     #[Route("/apropos", name: "apropos")]
-    public function apropos(): Response{
+    public function apropos(): Response
+    {
         return $this->render("global/apropos.html.twig");
     }
 
-    #[Route("/article/{id}", name: "article")]
-    public function article(int $id): Response{
-        return $this->render("global/article.html.twig", ['id_article' => $id]);
+    #[Route("/article/nouveau", name: "article_nouveau")]
+    public function articleNouveau(): Response
+    {
+        return new Response("Nouvel article créé !");
     }
+
+    #[Route("/article/{slug}", name: "article")]
+    public function article(string $slug): Response
+    {
+        return $this->render("global/article.html.twig", ['slug' => $slug]);
+    }
+
 }
