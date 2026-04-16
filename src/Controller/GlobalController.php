@@ -25,4 +25,9 @@ final class GlobalController extends AbstractController
     public function apropos(): Response{
         return $this->render("global/apropos.html.twig");
     }
+
+    #[Route("/article/{id}", name: "article")]
+    public function article(int $id): Response{
+        return $this->render("global/article.html.twig", ['id_article' => $id]);
+    }
 }
