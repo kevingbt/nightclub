@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -54,6 +55,13 @@ final class GlobalController extends AbstractController
             return new Response("Bonjour {$request->query->get('prenom')} ");
         } else {
             return new Response("Bonjour invité");
-        }   
+        }
+    }
+
+    #[Route("/json/etapes", name: "json_etapes")]
+    public function json_etapes(): JsonResponse
+    {
+        $etapes = [["id" => 1, "année" => 2020, "texte" => "Étape 1"], ["id" => 2, "année" => 2021, "texte" => "Étape 2"], ["id" => 3, "année" => 2022, "texte" => "Étape 3"]];
+        return $this->json($etapes);
     }
 }
