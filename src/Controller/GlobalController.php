@@ -10,18 +10,19 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class GlobalController extends AbstractController
 {
+
     #[Route('/', name: 'accueil')]
     public function index(): Response
     {
         return $this->render('global/index.html.twig', [
-            'controller_name' => 'GlobalController',
+            'title' => 'Titre de la page d\'accueil',
         ]);
     }
 
-    #[Route("/contact", name: "contact_get", methods: ["GET"])]
+    #[Route("/contact", name: "contact", methods: ["GET"])]
     public function contact(): Response
     {
-        return new Response("Formulaire");
+        return $this->render("global/contact.html.twig");
     }
 
     #[Route("/contact", name: "contact_post", methods: ["POST"])]
@@ -33,7 +34,13 @@ final class GlobalController extends AbstractController
     #[Route("/apropos", name: "apropos")]
     public function apropos(): Response
     {
-        return $this->render("global/apropos.html.twig");
+        $historique = [
+            ["année" => 2020, "texte" => "Construction de la discothèque"],
+            ["année" => 2021, "texte" => "Ouverture de la discothèque"],
+            ["année" => 2022, "texte" => "Nouvelle extension"],
+        ];
+
+        return $this->render("global/apropos.html.twig", ['historiques' => $historique]);
     }
 
     #[Route("/article/nouveau", name: "article_nouveau")]
