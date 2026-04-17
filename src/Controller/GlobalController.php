@@ -7,6 +7,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\UX\Map\Bridge\Leaflet\LeafletOptions;
+use Symfony\UX\Map\Bridge\Leaflet\Option\TileLayer;
+use Symfony\UX\Map\InfoWindow;
+use Symfony\UX\Map\Map;
+use Symfony\UX\Map\Marker;
+use Symfony\UX\Map\Point;
+
 
 final class GlobalController extends AbstractController
 {
@@ -15,14 +22,34 @@ final class GlobalController extends AbstractController
     public function index(): Response
     {
         return $this->render('global/index.html.twig', [
-            'title' => 'Titre de la page d\'accueil',
+            'title' => 'Nightclub',
         ]);
     }
 
     #[Route("/contact", name: "contact", methods: ["GET"])]
     public function contact(): Response
     {
-        return $this->render("global/contact.html.twig");
+        $map = (new Map('default'))
+            ->center(new Point(45.7534031, 4.8295061))
+            ->zoom(6)
+
+            ->addMarker(new Marker(
+                position: new Point(47.3881023, 0.8269289),
+                title: 'Montlouis',
+                infoWindow: new InfoWindow(
+                    content: '<p>Thank you <a href="https://github.com/Kocal">@Kocal</a> for this component!</p>',
+                )
+            ))
+
+            ->options((new LeafletOptions())
+                    ->tileLayer(new TileLayer(
+                        url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                        options: ['maxZoom' => 19]
+                    ))
+            );
+
+        return $this->render("global/contact.html.twig", ['map' => $map]);
     }
 
     #[Route("/contact", name: "contact_post", methods: ["POST"])]

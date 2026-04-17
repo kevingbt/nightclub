@@ -1,8 +1,8 @@
-<div class="bg-white p-5">
-	<ul class="list-unstyled flex gap-4">
-		<li><a href="{{ path('accueil') }}">Accueil</a></li>
-        <li><a href="{{ path('contact') }}">Contact</a></li>
-        <li><a href="{{ path('apropos') }}">À propos</a></li>
+<div class="bg-teal-900 p-5 flex gap-10 align-items-center">
+	<p class="text-xl font-bold mb-4 text-white">Nightclub</p>
+	<ul class="list-unstyled flex gap-4 text-white">
+		<li><a class="flex items-center gap-2" href="{{ path('accueil') }}"> {{ ux_icon('lucide:home') }} Accueil</a></li>
+        <li><a class="flex items-center gap-2" href="{{ path('contact') }}"> {{ ux_icon('lucide:user') }}Contact</a></li>
+        <li><a class="flex items-center gap-2" href="{{ path('apropos') }}"> {{ ux_icon('lucide:archive') }}À propos</a></li>
 	</ul>
 </div>
-	
