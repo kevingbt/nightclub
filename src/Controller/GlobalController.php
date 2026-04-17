@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use Dom\Text;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +31,22 @@ final class GlobalController extends AbstractController
         ]);
     }
 
-    #[Route("/contact", name: "contact", methods: ["GET"])]
-    public function contact(): Response
+    #[Route("/contact", name: "contact")]
+    public function contact(Request $request): Response
     {
+        $form = $this->createFormBuilder()
+            ->add('nom', TextType::class)
+            ->add('email', EmailType::class)
+            ->add('message', TextareaType::class)
+            ->add('envoyer', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            dd($data); 
+        }
+
         $map = (new Map('default'))
             ->center(new Point(45.7534031, 4.8295061))
             ->zoom(6)
@@ -49,13 +67,7 @@ final class GlobalController extends AbstractController
                     ))
             );
 
-        return $this->render("global/contact.html.twig", ['map' => $map]);
-    }
-
-    #[Route("/contact", name: "contact_post", methods: ["POST"])]
-    public function contactPost(): Response
-    {
-        return new Response("Formulaire envoyé");
+        return $this->render("global/contact.html.twig", ['map' => $map, 'monForm' => $form]);
     }
 
     #[Route("/apropos", name: "apropos")]
