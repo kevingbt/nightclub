@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Artiste;
 use App\Entity\Soiree;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,6 +22,12 @@ class Soiree1Type extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('statut')
+            ->add("soiree_artiste", EntityType::class, [
+                'class' => Artiste::class,
+                'choice_label' => 'nom',
+                'multiple' => true,
+                'required' => false,
+            ])
         ;
     }
 

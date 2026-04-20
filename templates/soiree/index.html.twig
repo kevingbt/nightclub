@@ -1,41 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Soiree index{% endblock %}
+{% block title %}Soiree index
+{% endblock %}
 
 {% block body %}
-    <h1>Soiree index</h1>
+	<h1>Soiree index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>DateSoiree</th>
-                <th>DateCreation</th>
-                <th>Statut</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for soiree in soirees %}
-            <tr>
-                <td>{{ soiree.id }}</td>
-                <td>{{ soiree.titre }}</td>
-                <td>{{ soiree.dateSoiree ? soiree.dateSoiree|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ soiree.dateCreation ? soiree.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ soiree.statut }}</td>
-                <td>
-                    <a href="{{ path('app_soiree_show', {'id': soiree.id}) }}">show</a>
-                    <a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Titre</th>
+				<th>DateSoiree</th>
+				<th>DateCreation</th>
+				<th>Statut</th>
+				<th>SoireeArtiste</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for soiree in soirees %}
+				<tr>
+					<td>{{ soiree.id }}</td>
+					<td>{{ soiree.titre }}</td>
+					<td>{{ soiree.dateSoiree ? soiree.dateSoiree|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ soiree.dateCreation ? soiree.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ soiree.statut }}</td>
+					<td>
+						{% for artiste in soiree.soireeArtiste %}
+							<a href="{{ path('app_artiste_show', {'id': artiste.id}) }}">
 
-    <a href="{{ path('app_soiree_new') }}">Create new</a>
+								{{ artiste.nom }}
+								{{ artiste.prenom }}<br>
+							{% endfor %}
+						</a>
+					</td>
+					<td>
+						<a href="{{ path('app_soiree_show', {'id': soiree.id}) }}">show</a>
+						<a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_soiree_new') }}">Create new</a>
 {% endblock %}
