@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
+{% form_theme monForm 'tailwind_2_layout.html.twig' %}
 
 {% block title %}Hello GlobalController!
 {% endblock %}
+
 
 {% block body %}
 	<style>
@@ -21,8 +23,10 @@
 		<h1>Ceci est une page de contact
 		</h1>
 
-		{{ form(monForm)}}
-
+		{{ form_start(monForm, {'attr': {'class': 'space-y-4'}}) }}
+		{{ form_widget(monForm)}}
+		<button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Envoyer</button>
+		{{ form_end(monForm) }}
 		{{ ux_map(map, {style: 'height: 600px;'}) }}
 	</div>
 {% endblock %}
