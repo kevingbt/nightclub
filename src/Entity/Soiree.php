@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SoireeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,6 +15,10 @@ class Soiree
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min:5,
+        minMessage:'Ce titre est trop court. Rallongez-le un peu pour votre SEO.',
+    )]
     private ?string $titre = null;
 
     #[ORM\Column]

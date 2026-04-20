@@ -2,68 +2,80 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Soiree;
+use App\Form\Soiree1Type;
 use App\Repository\SoireeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/soiree')]
 final class SoireeController extends AbstractController
 {
-    #[Route('/soiree', name: 'app_soiree')]
-    public function index(): Response
+    #[Route(name: 'app_soiree_index', methods: ['GET'])]
+    public function index(SoireeRepository $soireeRepository): Response
     {
         return $this->render('soiree/index.html.twig', [
-            'controller_name' => 'SoireeController',
+            'soirees' => $soireeRepository->findAll(),
         ]);
     }
 
-    #[Route('/soiree/creer', name: 'creer_soiree')]
-    function creer_soiree(EntityManagerInterface $em): Response
+    #[Route('/new', name: 'app_soiree_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $soiree = new Soiree();
-        $soiree->setTitre('Soirée de folie');
-        $soiree->setDateSoiree(new \DateTimeImmutable);
-        $soiree->setDateCreation(new \DateTimeImmutable);
+        $form = $this->createForm(Soiree1Type::class, $soiree);
+        $form->handleRequest($request);
 
-        $em->persist($soiree);
-        $em->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($soiree);
+            $entityManager->flush();
 
-        return new Response('Soirée créée avec succès !');
+            return $this->redirectToRoute('app_soiree_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('soiree/new.html.twig', [
+            'soiree' => $soiree,
+            'form' => $form,
+        ]);
     }
 
-    #[Route('/soirees', name: 'soirees')]
-    function soirees(SoireeRepository $soireeRepository): Response
+    #[Route('/{id}', name: 'app_soiree_show', methods: ['GET'])]
+    public function show(Soiree $soiree): Response
     {
-        $soirees = $soireeRepository->findAll();
-        dd($soirees);
+        return $this->render('soiree/show.html.twig', [
+            'soiree' => $soiree,
+        ]);
     }
 
-    #[Route('/soiree/{id}/read', name: 'read_soiree')]
-    function soirreId($id, SoireeRepository $soireeRepository): Response
+    #[Route('/{id}/edit', name: 'app_soiree_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Soiree $soiree, EntityManagerInterface $entityManager): Response
     {
-        $soiree = $soireeRepository->find($id);
-        dd($soiree);
+        $form = $this->createForm(Soiree1Type::class, $soiree);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_soiree_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('soiree/edit.html.twig', [
+            'soiree' => $soiree,
+            'form' => $form,
+        ]);
     }
 
-    #[Route('/soiree/{id}/update', name: 'update_soiree')]
-    function update_soiree($id, EntityManagerInterface $em)
+    #[Route('/{id}', name: 'app_soiree_delete', methods: ['POST'])]
+    public function delete(Request $request, Soiree $soiree, EntityManagerInterface $entityManager): Response
     {
-        $repository = $em->getRepository(Soiree::class);
-        $soiree = $repository->find($id);
-        $soiree->setTitre("Soirée mousse");
-        $em->flush();
-        dd($soiree);
-    }
+        if ($this->isCsrfTokenValid('delete'.$soiree->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($soiree);
+            $entityManager->flush();
+        }
 
-    #[Route('/soiree/{id}/delete', name: 'delete_soiree')]
-    function delete_soiree($id, EntityManagerInterface $em)
-    {
-        $repository = $em->getRepository(Soiree::class);
-        $soiree = $repository->find($id);
-        $em->remove($soiree);
-        $em->flush();
-        return $this->redirectToRoute('soirees');
+        return $this->redirectToRoute('app_soiree_index', [], Response::HTTP_SEE_OTHER);
     }
 }
