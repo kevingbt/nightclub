@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/artiste')]
+#[Route('/admin/artiste')]
 final class ArtisteController extends AbstractController
 {
     #[Route(name: 'app_artiste_index', methods: ['GET'])]

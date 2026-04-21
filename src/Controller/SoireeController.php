@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/soiree')]
+#[Route('/admin/soiree')]
 final class SoireeController extends AbstractController
 {
     #[Route(name: 'app_soiree_index', methods: ['GET'])]
