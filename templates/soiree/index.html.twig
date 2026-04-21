@@ -15,9 +15,10 @@
 					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Titre</th>
 					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Date Soirée</th>
 					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Date Création</th>
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Statut</th>
+					{# <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Statut</th> #}
 					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Artistes</th>
 					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Thème</th>
+					{# <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Matériel</th> #}
 					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Actions</th>
 				</tr>
 			</thead>
@@ -28,7 +29,7 @@
 						<td class="px-5 py-5 text-sm">{{ soiree.titre }}</td>
 						<td class="px-5 py-5 text-sm">{{ soiree.dateSoiree ? soiree.dateSoiree|date('d/m/Y H:i') : '' }}</td>
 						<td class="px-5 py-5 text-sm">{{ soiree.dateCreation ? soiree.dateCreation|date('d/m/Y H:i') : '' }}</td>
-						<td class="px-5 py-5 text-sm">{{ soiree.statut }}</td>
+						{# <td class="px-5 py-5 text-sm">{{ soiree.statut }}</td> #}
 						<td class="px-5 py-5 text-sm">
 							{% for artiste in soiree.soireeArtiste %}
 								<a href="{{ path('app_artiste_show', {'id': artiste.id}) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
@@ -45,6 +46,17 @@
 								<span class="text-gray-500">Pas de thème</span>
 							{% endif %}
 						</td>
+						{# <td class="px-5 py-5 text-sm">
+							{% if soiree.materielSoiree %}
+								{% for materiel in soiree.materielSoiree %}
+									<a href="{{ path('app_materiel_show', {'id': materiel.id}) }}" class="text-green-600 hover:text-green-800 hover:underline">
+										{{ materiel.nom }}
+									</a><br>
+								{% endfor %}
+							{% else %}
+								<span class="text-gray-500">Pas de matériel</span>
+							{% endif %}
+						</td> #}
 						<td class="px-5 py-5 text-sm">
 							<a href="{{ path('app_soiree_show', {'id': soiree.id}) }}" class="text-gray-600 hover:text-gray-900 mr-3">Voir</a>
 							<a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}" class="text-blue-600 hover:text-blue-900">Modifier</a>

@@ -3,39 +3,43 @@
 {% block title %}Artiste index{% endblock %}
 
 {% block body %}
-    <h1>Artiste index</h1>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800">Listes des artistes</h1>
 
-    <table class="table">
-        <thead>
+<div class="shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full leading-normal">
+        <thead class="bg-gray-200 text-gray-600 uppercase text-sm">
             <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Email</th>
-                <th>actions</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Id</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Nom</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Prenom</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Telephone</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Email</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left">actions</th>
             </tr>
         </thead>
         <tbody>
         {% for artiste in artistes %}
-            <tr>
-                <td>{{ artiste.id }}</td>
-                <td>{{ artiste.nom }}</td>
-                <td>{{ artiste.prenom }}</td>
-                <td>{{ artiste.telephone }}</td>
-                <td>{{ artiste.email }}</td>
-                <td>
-                    <a href="{{ path('app_artiste_show', {'id': artiste.id}) }}">show</a>
-                    <a href="{{ path('app_artiste_edit', {'id': artiste.id}) }}">edit</a>
+            <tr class="bg-white hover:bg-gray-100 border-b border-gray-200">
+                <td class="px-5 py-5 text-sm">{{ artiste.id }}</td>
+                <td class="px-5 py-5 text-sm">{{ artiste.nom }}</td>
+                <td class="px-5 py-5 text-sm">{{ artiste.prenom }}</td>
+                <td class="px-5 py-5 text-sm">{{ artiste.telephone }}</td>
+                <td class="px-5 py-5 text-sm">{{ artiste.email }}</td>
+                <td class="px-5 py-5 text-sm">
+                    <a href="{{ path('app_artiste_show', {'id': artiste.id}) }}" class="text-gray-600 hover:text-gray-900 mr-3">show</a>
+                    <a href="{{ path('app_artiste_edit', {'id': artiste.id}) }}" class="text-gray-600 hover:text-gray-900">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6" class="text-center py-10 text-gray-500">Aucun artiste trouvé.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    </div>
 
-    <a href="{{ path('app_artiste_new') }}">Create new</a>
+    <a href="{{ path('app_artiste_new') }}" class="inline-block mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create new</a>
+</div>
 {% endblock %}
