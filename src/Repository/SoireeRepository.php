@@ -18,10 +18,10 @@ class SoireeRepository extends ServiceEntityRepository
 
     public function findNextSoiree(): array
     {
-        $queryBuilder = $this->createQueryBuilder("p")
-            ->andWhere('p.dateSoiree >= :now')
+        $queryBuilder = $this->createQueryBuilder("s")
             ->setParameter('now', new \DateTimeImmutable())
-            ->orderBy("p.dateSoiree", "ASC")
+            ->where('s.dateSoiree >= :now')
+            ->orderBy("s.dateSoiree", "ASC")
             ->setMaxResults(3)
             ->getQuery();
 
