@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/materiel/soiree')]
+#[Route('/materiel_soiree')]
 final class MaterielSoireeController extends AbstractController
 {
     #[Route(name: 'app_materiel_soiree_index', methods: ['GET'])]
@@ -70,7 +70,7 @@ final class MaterielSoireeController extends AbstractController
 
     #[Route('/{id}', name: 'app_materiel_soiree_delete', methods: ['POST'])]
     public function delete(Request $request, MaterielSoiree $materielSoiree, EntityManagerInterface $entityManager): Response
-    {
+    {   
         if ($this->isCsrfTokenValid('delete'.$materielSoiree->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($materielSoiree);
             $entityManager->flush();

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Repository\SoireeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +21,12 @@ final class GlobalController extends AbstractController
 {
 
     #[Route('/', name: 'accueil')]
-    public function index(): Response
+    public function index(SoireeRepository $soireeRepository): Response
     {
+        $soirees = $soireeRepository->findNextSoiree();
         return $this->render('global/index.html.twig', [
             'title' => 'Nightclub',
+            'soirees' => $soirees,
         ]);
     }
 

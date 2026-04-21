@@ -16,6 +16,18 @@ class SoireeRepository extends ServiceEntityRepository
         parent::__construct($registry, Soiree::class);
     }
 
+    public function findNextSoiree(): array
+    {
+        $queryBuilder = $this->createQueryBuilder("p")
+            ->andWhere('p.dateSoiree >= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy("p.dateSoiree", "ASC")
+            ->setMaxResults(3)
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
     //    /**
     //     * @return Soiree[] Returns an array of Soiree objects
     //     */

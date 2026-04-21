@@ -17,6 +17,7 @@ final class SoireeController extends AbstractController
     #[Route(name: 'app_soiree_index', methods: ['GET'])]
     public function index(SoireeRepository $soireeRepository): Response
     {
+        dump($soireeRepository->findAll());
         return $this->render('soiree/index.html.twig', [
             'soirees' => $soireeRepository->findAll(),
         ]);

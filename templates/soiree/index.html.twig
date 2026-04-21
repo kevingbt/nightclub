@@ -4,75 +4,73 @@
 {% endblock %}
 
 {% block body %}
-<div class="container mx-auto px-4 py-8">
-	<h1 class="text-3xl font-bold mb-6 text-gray-800">Liste des Soirées</h1>
+	<div class="container mx-auto px-4 py-8">
+		<h1 class="text-3xl font-bold mb-6 text-gray-800">Liste des Soirées</h1>
 
-	<div class="shadow-md rounded-lg overflow-hidden">
-		<table class="min-w-full leading-normal">
-			<thead class="bg-gray-200 text-gray-600 uppercase text-sm">
-				<tr>
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Id</th>
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Titre</th>
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Date Soirée</th>
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Date Création</th>
-					{# <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Statut</th> #}
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Artistes</th>
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Thème</th>
-					{# <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Matériel</th> #}
-					<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for soiree in soirees %}
-					<tr class="bg-white hover:bg-gray-100 border-b border-gray-200">
-						<td class="px-5 py-5 text-sm">{{ soiree.id }}</td>
-						<td class="px-5 py-5 text-sm">{{ soiree.titre }}</td>
-						<td class="px-5 py-5 text-sm">{{ soiree.dateSoiree ? soiree.dateSoiree|date('d/m/Y H:i') : '' }}</td>
-						<td class="px-5 py-5 text-sm">{{ soiree.dateCreation ? soiree.dateCreation|date('d/m/Y H:i') : '' }}</td>
-						{# <td class="px-5 py-5 text-sm">{{ soiree.statut }}</td> #}
-						<td class="px-5 py-5 text-sm">
-							{% for artiste in soiree.soireeArtiste %}
-								<a href="{{ path('app_artiste_show', {'id': artiste.id}) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
-									{{ artiste.nom }} {{ artiste.prenom }}
-								</a><br>
-							{% endfor %}
-						</td>
-						<td class="px-5 py-5 text-sm">
-							{% if soiree.themeSoiree %}
-								<a href="{{ path('app_theme_show', {'id': soiree.themeSoiree.id}) }}" class="text-indigo-600 hover:text-indigo-800 hover:underline">
-									{{ soiree.themeSoiree.nom }}
-								</a>
-							{% else %}
-								<span class="text-gray-500">Pas de thème</span>
-							{% endif %}
-						</td>
-						{# <td class="px-5 py-5 text-sm">
-							{% if soiree.materielSoiree %}
-								{% for materiel in soiree.materielSoiree %}
-									<a href="{{ path('app_materiel_show', {'id': materiel.id}) }}" class="text-green-600 hover:text-green-800 hover:underline">
-										{{ materiel.nom }}
+		<div class="shadow-md rounded-lg overflow-hidden">
+			<table class="min-w-full leading-normal">
+				<thead class="bg-gray-200 text-gray-600 uppercase text-sm">
+					<tr>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Id</th>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Titre</th>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Date Soirée</th>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Date Création</th>
+						{# <th class="px-5 py-3 border-b-2 border-gray-200 text-left">Statut</th> #}
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Artistes</th>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Thème</th>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Matériel</th>
+						<th class="px-5 py-3 border-b-2 border-gray-200 text-left">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for soiree in soirees %}
+						<tr class="bg-white hover:bg-gray-100 border-b border-gray-200">
+							<td class="px-5 py-5 text-sm">{{ soiree.id }}</td>
+							<td class="px-5 py-5 text-sm">{{ soiree.titre }}</td>
+							<td class="px-5 py-5 text-sm">{{ soiree.dateSoiree ? soiree.dateSoiree|date('d/m/Y H:i') : '' }}</td>
+							<td class="px-5 py-5 text-sm">{{ soiree.dateCreation ? soiree.dateCreation|date('d/m/Y H:i') : '' }}</td>
+							{# <td class="px-5 py-5 text-sm">{{ soiree.statut }}</td> #}
+							<td class="px-5 py-5 text-sm">
+								{% for artiste in soiree.soireeArtiste %}
+									<a href="{{ path('app_artiste_show', {'id': artiste.id}) }}" class="text-blue-600 hover:text-blue-800 hover:underline">
+										{{ artiste.nom }}
+										{{ artiste.prenom }}
 									</a><br>
 								{% endfor %}
-							{% else %}
-								<span class="text-gray-500">Pas de matériel</span>
-							{% endif %}
-						</td> #}
-						<td class="px-5 py-5 text-sm">
-							<a href="{{ path('app_soiree_show', {'id': soiree.id}) }}" class="text-gray-600 hover:text-gray-900 mr-3">Voir</a>
-							<a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}" class="text-blue-600 hover:text-blue-900">Modifier</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="8" class="text-center py-10 text-gray-500">Aucune soirée trouvée.</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
+							</td>
+							<td class="px-5 py-5 text-sm">
+								{% if soiree.themeSoiree %}
+									<a href="{{ path('app_theme_show', {'id': soiree.themeSoiree.id}) }}" class="text-indigo-600 hover:text-indigo-800 hover:underline">
+										{{ soiree.themeSoiree.nom }}
+									</a>
+								{% else %}
+									<span class="text-gray-500">Pas de thème</span>
+								{% endif %}
+							</td>
 
-	<a href="{{ path('app_soiree_new') }}" class="inline-block mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-		Créer une nouvelle soirée
-	</a>
-</div>
+							<td class="px-5 py-5 text-sm">
+								{% for materielSoiree in soiree.materielSoiree %}
+									<a href="{{ path('app_materiel_show', {'id': materielSoiree.materiel.id}) }}" class="text-green-600 hover:text-green-800 hover:underline">
+										{{ materielSoiree.materiel.nom }}
+									</a><br>
+								{% endfor %}
+							</td>
+							<td class="px-5 py-5 text-sm">
+								<a href="{{ path('app_soiree_show', {'id': soiree.id}) }}" class="text-gray-600 hover:text-gray-900 mr-3">Voir</a>
+								<a href="{{ path('app_soiree_edit', {'id': soiree.id}) }}" class="text-blue-600 hover:text-blue-900">Modifier</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="8" class="text-center py-10 text-gray-500">Aucune soirée trouvée.</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<a href="{{ path('app_soiree_new') }}" class="inline-block mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+			Créer une nouvelle soirée
+		</a>
+	</div>
 {% endblock %}

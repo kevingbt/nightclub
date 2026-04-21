@@ -41,6 +41,12 @@ class Soiree
     #[ORM\ManyToOne(inversedBy: 'soiree_theme')]
     private ?Theme $theme_soiree = null;
 
+    /**
+     * @var Collection<int, MaterielSoiree>
+     */
+    #[ORM\OneToMany(targetEntity: MaterielSoiree::class, mappedBy: 'soiree')]
+    private Collection $materiel_soiree;
+
     public function __construct()
     {
         $this->soiree_artiste = new ArrayCollection();
@@ -132,6 +138,36 @@ class Soiree
     public function setThemeSoiree(?Theme $theme_soiree): static
     {
         $this->theme_soiree = $theme_soiree;
+
+        return $this;
+    }
+
+        /**
+     * @return Collection<int, MaterielSoiree>
+     */
+    public function getMaterielSoiree(): Collection
+    {
+        return $this->materiel_soiree;
+    }
+
+    public function addMaterielSoiree(MaterielSoiree $materielSoiree): static
+    {
+        if (!$this->materiel_soiree->contains($materielSoiree)) {
+            $this->materiel_soiree->add($materielSoiree);
+            $materielSoiree->setSoiree($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaterielSoiree(MaterielSoiree $materielSoiree): static
+    {
+        if ($this->materiel_soiree->removeElement($materielSoiree)) {
+            // set the owning side to null (unless already changed)
+            if ($materielSoiree->getSoiree() === $this) {
+                $materielSoiree->setSoiree(null);
+            }
+        }
 
         return $this;
     }
