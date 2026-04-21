@@ -27,6 +27,7 @@ final class GlobalController extends AbstractController
         return $this->render('global/index.html.twig', [
             'title' => 'Nightclub',
             'soirees' => $soirees,
+            'user' => $this->getUser()
         ]);
     }
 

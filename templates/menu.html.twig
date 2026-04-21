@@ -4,8 +4,13 @@
 		<li><a class="flex items-center gap-2" href="{{ path('accueil') }}"> {{ ux_icon('lucide:home') }} Accueil</a></li>
 		<li><a class="flex items-center gap-2" href="{{ path('app_soiree_index') }}"> Soirées</a></li>
 		<li><a class="flex items-center gap-2" href="{{ path('app_artiste_index') }}"> Artistes</a></li>
-		{# <li><a class="flex items-center gap-2" href="{{ path('app_theme_index') }}"> Thèmes</a></li> #}
         <li><a class="flex items-center gap-2" href="{{ path('contact') }}"> {{ ux_icon('lucide:user') }}Contact</a></li>
         <li><a class="flex items-center gap-2" href="{{ path('apropos') }}"> {{ ux_icon('lucide:archive') }}À propos</a></li>
+		{% if app.user %}
+			<li><a class="flex items-center gap-2" href="{{ path('app_logout') }}"> {{ ux_icon('lucide:log-out') }}Déconnexion</a></li>
+		{% else %}
+			<li><a class="flex items-center gap-2" href="{{ path('app_login') }}"> {{ ux_icon('lucide:log-in') }}Connexion</a></li>
+			<li><a class="flex items-center gap-2" href="{{ path('app_register') }}"> {{ ux_icon('lucide:user-plus') }}Inscription</a></li>
+		{% endif %}
 	</ul>
 </div>
